@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPApis", "TPApis\TPApis.csproj", "{EFEEDA32-4E50-4998-98C1-27F5BD911D78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{837E95B3-1CF7-4E66-BBB7-152739268B63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicio", "Servicio\Servicio.csproj", "{21418E77-DE76-412C-A619-354E1CD8F619}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EFEEDA32-4E50-4998-98C1-27F5BD911D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFEEDA32-4E50-4998-98C1-27F5BD911D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFEEDA32-4E50-4998-98C1-27F5BD911D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFEEDA32-4E50-4998-98C1-27F5BD911D78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{837E95B3-1CF7-4E66-BBB7-152739268B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{837E95B3-1CF7-4E66-BBB7-152739268B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{837E95B3-1CF7-4E66-BBB7-152739268B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{837E95B3-1CF7-4E66-BBB7-152739268B63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21418E77-DE76-412C-A619-354E1CD8F619}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21418E77-DE76-412C-A619-354E1CD8F619}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21418E77-DE76-412C-A619-354E1CD8F619}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21418E77-DE76-412C-A619-354E1CD8F619}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
