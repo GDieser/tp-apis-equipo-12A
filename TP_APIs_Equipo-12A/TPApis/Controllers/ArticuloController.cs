@@ -51,29 +51,40 @@ namespace TPApis.Controllers
         // POST: api/Articulo
         public IHttpActionResult Post([FromBody] ArticuloDTO art)
         {
-            if (string.IsNullOrEmpty(art.Codigo) || string.IsNullOrEmpty(art.Nombre))
-                return BadRequest("Los campos obligatorios no están completos.");
-
+            if (string.IsNullOrEmpty(art.Codigo) || string.IsNullOrEmpty(art.Nombre) || string.IsNullOrEmpty(art.Descripcion))
+                return Content(HttpStatusCode.BadRequest, new { message = "Error en los datos ingresados. Verifique e intente nuevamente..." });
             ArticuloNegocio negocio = new ArticuloNegocio();
-
-            if (negocio.existeArticulo(art.Codigo))
-                return BadRequest("El artículo ya existe.");
-
-            negocio.agregar(art);
-
-
-            return Ok("Artículo agregado con éxito");
+            try
+            {
+                if (negocio.existeArticulo(art.Codigo))
+                    return Content(HttpStatusCode.BadRequest, new { message = "Existe articulo con este codigo, verifique e intente nuevamente." });
+                negocio.agregar(art);
+                return Content(HttpStatusCode.OK, new { message = "Articulo agregado correctamente." });
+            }
+            catch (Exception)
+            {
+                return Content(HttpStatusCode.InternalServerError, new { message = "Ocurrio un error inesperado." });
+            }
         }
 
+        // PUT: api/Articulo
         public IHttpActionResult Put([FromBody] ArticuloDTO art)
         {
+            if (art.IdArticulo <= 0 || string.IsNullOrEmpty(art.Codigo) || string.IsNullOrEmpty(art.Nombre) || string.IsNullOrEmpty(art.Descripcion))
+                return Content(HttpStatusCode.BadRequest, new { message = "Error en los datos proporcionados. Verifique e intente nuevamente." });
             ArticuloNegocio negocio = new ArticuloNegocio();
-
-            if (!negocio.modificarArticulo(art))
+            try
             {
-                return BadRequest("Error al modificar el artículo");
+                if (!negocio.modificarArticulo(art))
+                {
+                    return Content(HttpStatusCode.BadRequest, new { message = "Error al modificar el articulo." });
+                }
+                return Content(HttpStatusCode.OK, new { message = "Articulo modificado correctamente." });
             }
-            return Ok("Artículo modificado con éxito");
+            catch (Exception)
+            {
+                return Content(HttpStatusCode.InternalServerError, new { message = "Ocurrió un error inesperado." });
+            }
         }
 
         // DELETE: api/Articulo/5

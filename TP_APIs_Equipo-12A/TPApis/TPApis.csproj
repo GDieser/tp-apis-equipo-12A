@@ -309,6 +309,10 @@
       <Project>{837e95b3-1cf7-4e66-bbb7-152739268b63}</Project>
       <Name>Dominio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mapeadores\Mapeadores.csproj">
+      <Project>{3cc594c1-b7c3-493e-abdc-44f8f152bd5e}</Project>
+      <Name>Mapeadores</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Servicio\Servicio.csproj">
       <Project>{21418e77-de76-412c-a619-354e1cd8f619}</Project>
       <Name>Servicio</Name>

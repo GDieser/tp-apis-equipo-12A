@@ -120,6 +120,39 @@ namespace Servicio
             }
         }
 
+        public void agregar(ArticuloDTO nuevoArt)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setConsulta(@"INSERT INTO ARTICULOS 
+                            (Codigo, Nombre, Descripcion, Precio, IdMarca, IdCategoria) 
+                            VALUES 
+                            (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria); 
+                            SELECT SCOPE_IDENTITY()");
+
+                datos.setParametro("@Codigo", nuevoArt.Codigo);
+                datos.setParametro("@Nombre", nuevoArt.Nombre);
+                datos.setParametro("@Descripcion", nuevoArt.Descripcion);
+                datos.setParametro("@Precio", nuevoArt.Precio);
+                datos.setParametro("@IdMarca", nuevoArt.IdMarca);
+                datos.setParametro("@IdCategoria", nuevoArt.IdCategoria);
+
+                datos.ejecutarLectura();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+
         public void modificarArticulo(Articulo articulo)
         {
             AccesoDatos datos = new AccesoDatos();

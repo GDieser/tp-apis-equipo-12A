@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicio", "Servicio\Servicio.csproj", "{21418E77-DE76-412C-A619-354E1CD8F619}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapeadores", "Mapeadores\Mapeadores.csproj", "{3CC594C1-B7C3-493E-ABDC-44F8F152BD5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +29,15 @@ Global
 		{21418E77-DE76-412C-A619-354E1CD8F619}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21418E77-DE76-412C-A619-354E1CD8F619}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21418E77-DE76-412C-A619-354E1CD8F619}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CC594C1-B7C3-493E-ABDC-44F8F152BD5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CC594C1-B7C3-493E-ABDC-44F8F152BD5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CC594C1-B7C3-493E-ABDC-44F8F152BD5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CC594C1-B7C3-493E-ABDC-44F8F152BD5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B9ABE8D3-34C2-4B08-B568-0D342274B43D}
 	EndGlobalSection
 EndGlobal
