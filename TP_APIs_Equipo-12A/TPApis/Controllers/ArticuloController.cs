@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Dominio;
+using Servicio;
 
 namespace TPApis.Controllers
 {
@@ -24,11 +26,19 @@ namespace TPApis.Controllers
         // POST: api/Articulo
         public void Post([FromBody]string value)
         {
+
+
         }
 
-        // PUT: api/Articulo/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put([FromBody] ArticuloDTO art)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+
+            if (!negocio.modificarArticulo(art))
+            {
+                return BadRequest("Error al modificar el artículo");
+            }
+            return Ok("Artículo modificado con éxito");
         }
 
         // DELETE: api/Articulo/5

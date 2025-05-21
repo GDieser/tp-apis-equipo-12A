@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Articulo.cs" />
+    <Compile Include="ArticuloDTO.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="Imagen.cs" />
     <Compile Include="Marca.cs" />

@@ -397,5 +397,48 @@ namespace Servicio
             }
         }
 
+        public bool modificarArticulo(ArticuloDTO art)
+        {
+            AccesoDatos accesoDatos = new AccesoDatos();
+            try
+            {
+                Articulo articulo = getArticulo(art.IdArticulo);
+                if (articulo == null || articulo.IdArticulo == 0)
+                    return false;
+
+                string consulta = @"UPDATE ARTICULOS 
+                            SET Codigo = @codigo, 
+                                Nombre = @nombre, 
+                                Descripcion = @descripcion, 
+                                IdMarca = @idMarca, 
+                                IdCategoria = @idCategoria, 
+                                Precio = @precio 
+                            WHERE Id = @id";
+
+                accesoDatos.limpiarParametros();
+                accesoDatos.setConsulta(consulta);
+
+                accesoDatos.setParametro("@codigo", art.Codigo);
+                accesoDatos.setParametro("@nombre", art.Nombre);
+                accesoDatos.setParametro("@descripcion", art.Descripcion);
+                accesoDatos.setParametro("@idMarca", art.IdMarca);
+                accesoDatos.setParametro("@idCategoria", art.IdCategoria);
+                accesoDatos.setParametro("@precio", art.Precio);
+                accesoDatos.setParametro("@id", art.IdArticulo);
+
+                accesoDatos.ejecutarAccion();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            finally
+            {
+                accesoDatos.cerrarConexion();
+            }
+        }
+
     }
 }
