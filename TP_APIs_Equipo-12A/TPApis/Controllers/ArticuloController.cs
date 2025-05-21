@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using Dominio;
 using Servicio;
 
@@ -12,9 +13,27 @@ namespace TPApis.Controllers
     public class ArticuloController : ApiController
     {
         // GET: api/Articulo
-        public IEnumerable<string> Get()
+        /* Listar v1
+        public IEnumerable<Articulo> Get()
         {
-            return new string[] { "value1", "value2" };
+            ArticuloNegocio negocio = new ArticuloNegocio();
+
+            return negocio.listar();
+        }
+        */
+        //Listar v2
+        [ResponseType(typeof(IEnumerable<Articulo>))]
+        public IHttpActionResult Get()
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            List<Articulo> articulos = negocio.listar();
+
+            if (articulos == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(articulos);
         }
 
         // GET: api/Articulo/5
@@ -22,6 +41,12 @@ namespace TPApis.Controllers
         {
             return "value";
         }
+
+        // POST: api/Articulo (Imagenes)
+        /*public HttpResponseMessage Post([FromBody] Imagen imagen, int id)
+        {
+
+        }*/
 
         // POST: api/Articulo
         public IHttpActionResult Post([FromBody] ArticuloDTO art)
