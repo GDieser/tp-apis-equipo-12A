@@ -440,5 +440,27 @@ namespace Servicio
             }
         }
 
+        public bool existeArticulo(string codigo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setConsulta("SELECT Id FROM ARTICULOS WHERE Codigo = @codigo");
+                datos.setParametro("@codigo", codigo);
+                datos.ejecutarLectura();
+
+                return datos.Lector.Read();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

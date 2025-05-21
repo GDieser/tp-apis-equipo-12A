@@ -24,10 +24,20 @@ namespace TPApis.Controllers
         }
 
         // POST: api/Articulo
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody] ArticuloDTO art)
         {
+            if (string.IsNullOrEmpty(art.Codigo) || string.IsNullOrEmpty(art.Nombre))
+                return BadRequest("Los campos obligatorios no están completos.");
+
+            ArticuloNegocio negocio = new ArticuloNegocio();
+
+            if (negocio.existeArticulo(art.Codigo))
+                return BadRequest("El artículo ya existe.");
+
+            negocio.agregar(art);
 
 
+            return Ok("Artículo agregado con éxito");
         }
 
         public IHttpActionResult Put([FromBody] ArticuloDTO art)
