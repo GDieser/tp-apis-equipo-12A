@@ -38,9 +38,12 @@ namespace TPApis.Controllers
         }
 
         // GET: api/Articulo/5
-        public string Get(int id)
+        public Articulo Get(int id)
         {
-            return "value";
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            List<Articulo> articulos = negocio.listar();
+
+            return articulos.Find(x=> x.IdArticulo == id);
         }
 
         // POST: api/Articulo (Imagenes)
