@@ -120,6 +120,8 @@ namespace TPApis.Controllers
         // DELETE: api/Articulo/5
         public void Delete(int id)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            negocio.eliminarArticulo(id);
         }
     }
 }
