@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Dominio;
 using Servicio;
+using TPApis.Models;
 
 namespace TPApis.Controllers
 {
@@ -43,10 +44,36 @@ namespace TPApis.Controllers
         }
 
         // POST: api/Articulo (Imagenes)
-        /*public HttpResponseMessage Post([FromBody] Imagen imagen, int id)
+        [HttpPost]
+        [Route("api/Articulo/{id}/Imagen")]
+        public HttpResponseMessage Post([FromBody] List<ImagenDto> imagenes, int id)
         {
+            ImagenNegocio negocio = new ImagenNegocio();
+            Imagen nuevo = new Imagen();
 
-        }*/
+            ArticuloNegocio artNegocio = new ArticuloNegocio();
+
+            Articulo art = artNegocio.getArticulo(id);
+
+            if (art == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "ID de Artículo incorrecto.");
+            }
+
+            foreach (var imagen in imagenes)
+            {
+                if (string.IsNullOrWhiteSpace(imagen.ImagenUrl))
+                    continue;
+
+                Imagen nueva = new Imagen();
+                nueva.IdArticulo = id;
+                nueva.ImagenUrl = imagen.ImagenUrl;
+
+                negocio.agregarImagen(nueva);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, "Imagen/es agregada/s con éxito");
+        }
 
         // POST: api/Articulo
         public IHttpActionResult Post([FromBody] ArticuloDTO art)

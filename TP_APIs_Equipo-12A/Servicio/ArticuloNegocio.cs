@@ -417,8 +417,14 @@ namespace Servicio
                         art.Categoria.Descripcion = "Sin categoría";
                     }
                     art.Imagenes = im.getImagenesIdArticulo(art.IdArticulo);
+
+                    return art;
                 }
-                return art;
+                else
+                {
+                    return null;
+                }
+                
             }
             catch (Exception ex)
             {
