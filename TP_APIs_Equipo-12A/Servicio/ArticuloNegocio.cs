@@ -146,7 +146,7 @@ namespace Servicio
                     nuevoArt.IdArticulo = Convert.ToInt32(datos.Lector[0]);
 
                     datos.Lector.Close();
-                    foreach (ImagenDTO im in nuevoArt.Imagenes)
+                    foreach (DTOImagen im in nuevoArt.Imagenes)
                     {
                         datos.setConsulta("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@idArticulo, @imagenUrl)");
                         datos.limpiarParametros();

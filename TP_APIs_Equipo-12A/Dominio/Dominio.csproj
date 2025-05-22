@@ -53,7 +53,7 @@
     <Compile Include="ArticuloDTO.cs" />
     <Compile Include="Categoria.cs" />
     <Compile Include="Imagen.cs" />
-    <Compile Include="ImagenDTO.cs" />
+    <Compile Include="DTOImagen.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

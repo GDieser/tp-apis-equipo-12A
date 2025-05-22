@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    public class ImagenDTO
+    public class DTOImagen
     {
-        public string ImagenURL { get; set; }
+        public string ImagenURL { get; set; }      
     }
 }
