@@ -28,7 +28,14 @@ namespace Mapeadores
             articulo.Categoria = categoria;
 
             articulo.Precio = art.Precio;
-            
+            foreach (var imagen in art.Imagenes)
+            {
+                Imagen img = new Imagen();
+                img.ImagenUrl = imagen.ImagenURL;
+                img.IdArticulo = articulo.IdArticulo;
+                articulo.Imagenes.Add(img);
+            }
+
             return articulo;
         }
 

@@ -15,6 +15,7 @@ namespace Dominio
         public int IdMarca { get; set; }
         public int IdCategoria { get; set; }
         public decimal Precio { get; set; }
+        public List<ImagenDTO> Imagenes { get; set; } = new List<ImagenDTO>();
 
     }
 }

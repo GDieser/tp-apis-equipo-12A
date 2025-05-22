@@ -97,7 +97,7 @@ namespace Servicio
 
                 datos.ejecutarLectura();
 
-                if(datos.Lector.Read())
+                if (datos.Lector.Read())
                     nuevoArt.IdArticulo = Convert.ToInt32(datos.Lector[0]);
 
                 datos.cerrarConexion();
@@ -140,6 +140,21 @@ namespace Servicio
                 datos.setParametro("@IdCategoria", nuevoArt.IdCategoria);
 
                 datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    nuevoArt.IdArticulo = Convert.ToInt32(datos.Lector[0]);
+
+                    datos.Lector.Close();
+                    foreach (ImagenDTO im in nuevoArt.Imagenes)
+                    {
+                        datos.setConsulta("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@idArticulo, @imagenUrl)");
+                        datos.limpiarParametros();
+                        datos.setParametro("@idArticulo", nuevoArt.IdArticulo);
+                        datos.setParametro("@imagenUrl", im.ImagenURL);
+                        datos.ejecutarAccion();
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -158,7 +173,6 @@ namespace Servicio
             AccesoDatos datos = new AccesoDatos();
 
             string consulta = "UPDATE ARTICULOS SET Codigo = @codigo, Nombre = @nombre, Descripcion = @descripcion, IdMarca = @idMarca, IdCategoria = @idCategoria, Precio = @precio WHERE Id = @id";
-            //string consulta = "UPDATE ARTICULOS SET Codigo = @codigo, Nombre = @nombre, Descripcion = @descripcion, Precio = @precio WHERE Id = @id";
 
             try
             {
@@ -221,23 +235,23 @@ namespace Servicio
             string consulta;
             try
             {
-                if(marca != 0 && categoria == 0)
+                if (marca != 0 && categoria == 0)
                 {
-                    consulta = "SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, A.Precio, M.Descripcion Marca, C.Descripcion Categoria FROM ARTICULOS A LEFT JOIN MARCAS M ON M.Id = A.IdMarca LEFT JOIN CATEGORIAS C ON C.Id = A.IdCategoria WHERE IdMarca = "+marca+"";
+                    consulta = "SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, A.Precio, M.Descripcion Marca, C.Descripcion Categoria FROM ARTICULOS A LEFT JOIN MARCAS M ON M.Id = A.IdMarca LEFT JOIN CATEGORIAS C ON C.Id = A.IdCategoria WHERE IdMarca = " + marca + "";
                 }
                 else if (marca != 0 && categoria != 0)
                 {
-                    consulta = "SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, A.Precio, M.Descripcion Marca, C.Descripcion Categoria FROM ARTICULOS A LEFT JOIN MARCAS M ON M.Id = A.IdMarca LEFT JOIN CATEGORIAS C ON C.Id = A.IdCategoria WHERE IdMarca = "+marca+" AND IdCategoria = "+categoria+"";
+                    consulta = "SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, A.Precio, M.Descripcion Marca, C.Descripcion Categoria FROM ARTICULOS A LEFT JOIN MARCAS M ON M.Id = A.IdMarca LEFT JOIN CATEGORIAS C ON C.Id = A.IdCategoria WHERE IdMarca = " + marca + " AND IdCategoria = " + categoria + "";
                 }
                 else
                 {
-                    consulta = "SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, A.Precio, M.Descripcion Marca, C.Descripcion Categoria FROM ARTICULOS A LEFT JOIN MARCAS M ON M.Id = A.IdMarca LEFT JOIN CATEGORIAS C ON C.Id = A.IdCategoria WHERE IdCategoria = "+categoria+"";
+                    consulta = "SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, A.Precio, M.Descripcion Marca, C.Descripcion Categoria FROM ARTICULOS A LEFT JOIN MARCAS M ON M.Id = A.IdMarca LEFT JOIN CATEGORIAS C ON C.Id = A.IdCategoria WHERE IdCategoria = " + categoria + "";
                 }
 
                 datos.setConsulta(consulta);
                 datos.ejecutarLectura();
 
-                while(datos.Lector.Read())
+                while (datos.Lector.Read())
                 {
                     Articulo aux = new Articulo();
                     List<Imagen> imagenes = new List<Imagen>();
@@ -251,7 +265,7 @@ namespace Servicio
                     aux.Marca = new Marca();
                     aux.Marca.IdMarca = (int)datos.Lector["IdMarca"];
                     aux.Marca.Descripcion = datos.Lector["Marca"] != DBNull.Value ? (string)datos.Lector["Marca"] : "Sin marca";
-                    
+
 
                     aux.Categoria = new Categoria();
                     aux.Categoria.IdCategoria = (int)datos.Lector["IdCategoria"];
@@ -286,7 +300,7 @@ namespace Servicio
             {
                 string consulta = "SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, A.Precio, M.Descripcion AS Marca, C.Descripcion AS Categoria FROM ARTICULOS A LEFT JOIN MARCAS M ON M.Id = A.IdMarca LEFT JOIN CATEGORIAS C ON C.Id = A.IdCategoria WHERE ";
 
-                if(campo == "Nombre")
+                if (campo == "Nombre")
                 {
                     switch (criterio)
                     {
@@ -301,7 +315,7 @@ namespace Servicio
                             break;
                     }
                 }
-                else if(campo == "Marca")
+                else if (campo == "Marca")
                 {
                     switch (criterio)
                     {
@@ -341,7 +355,7 @@ namespace Servicio
                     if (datos.Lector["IdCategoria"] != DBNull.Value)
                     {
                         art.Categoria.IdCategoria = (int)datos.Lector["IdCategoria"];
-                    }   
+                    }
                     else
                     {
                         art.Categoria.IdCategoria = 0;
@@ -463,7 +477,7 @@ namespace Servicio
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
