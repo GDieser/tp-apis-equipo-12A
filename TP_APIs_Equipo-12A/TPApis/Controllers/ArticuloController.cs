@@ -81,13 +81,16 @@ namespace TPApis.Controllers
         // POST: api/Articulo
         public IHttpActionResult Post([FromBody] ArticuloDTO art)
         {
-            if (string.IsNullOrEmpty(art.Codigo) || string.IsNullOrEmpty(art.Nombre) || string.IsNullOrEmpty(art.Descripcion))
-                return Content(HttpStatusCode.BadRequest, new { message = "Error en los datos ingresados. Verifique e intente nuevamente..." });
+            if (string.IsNullOrWhiteSpace(art.Codigo) ||
+               string.IsNullOrWhiteSpace(art.Nombre) ||
+               string.IsNullOrWhiteSpace(art.Descripcion))
+                return BadRequest("Todos los campos obligatorios deben estar completos.");
+            
             ArticuloNegocio negocio = new ArticuloNegocio();
             try
             {
-                if (negocio.existeArticulo(art.Codigo))
-                    return Content(HttpStatusCode.BadRequest, new { message = "Existe articulo con este codigo, verifique e intente nuevamente." });
+                if (negocio.existeArticulo(art.Codigo) !=0)
+                    return BadRequest("Existe articulo con este codigo, verifique e intente nuevamente.");
                 negocio.agregar(art);
                 return Content(HttpStatusCode.OK, new { message = "Articulo agregado correctamente." });
             }
@@ -97,19 +100,32 @@ namespace TPApis.Controllers
             }
         }
 
-        // PUT: api/Articulo
-        public IHttpActionResult Put([FromBody] ArticuloDTO art)
+        // PUT: api/Articulo/{id}
+        public IHttpActionResult Put([FromBody] ArticuloDTO art, int id)
         {
-            if (art.IdArticulo <= 0 || string.IsNullOrEmpty(art.Codigo) || string.IsNullOrEmpty(art.Nombre) || string.IsNullOrEmpty(art.Descripcion))
-                return Content(HttpStatusCode.BadRequest, new { message = "Error en los datos proporcionados. Verifique e intente nuevamente." });
+            if (art == null)
+                return BadRequest("El cuerpo de la solicitud no puede ser nulo.");
+
+            if (id <= 0)
+                return BadRequest("El ID proporcionado no es valido.");
+
+            if (string.IsNullOrWhiteSpace(art.Codigo) ||
+                string.IsNullOrWhiteSpace(art.Nombre) ||
+                string.IsNullOrWhiteSpace(art.Descripcion))
+                return BadRequest("Todos los campos obligatorios deben estar completos.");
+
+            art.IdArticulo = id;
             ArticuloNegocio negocio = new ArticuloNegocio();
+
             try
             {
+                int idArticuloExistente = negocio.existeArticulo(art.Codigo);
+
+                if (idArticuloExistente != art.IdArticulo && idArticuloExistente != 0)
+                    return BadRequest($"Ya existe otro artículo (ID = {idArticuloExistente}) con el mismo código. Verifique e intente nuevamente.");
                 if (!negocio.modificarArticulo(art))
-                {
-                    return Content(HttpStatusCode.BadRequest, new { message = "Error al modificar el articulo." });
-                }
-                return Content(HttpStatusCode.OK, new { message = "Articulo modificado correctamente." });
+                    return BadRequest("Error al modificar el articulo.");
+                return Content(HttpStatusCode.OK, new { message = $"Articulo ID={id} modificado correctamente." });
             }
             catch (Exception)
             {

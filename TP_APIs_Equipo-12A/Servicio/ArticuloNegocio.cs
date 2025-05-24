@@ -493,7 +493,7 @@ namespace Servicio
             }
         }
 
-        public bool existeArticulo(string codigo)
+        public int existeArticulo(string codigo)
         {
             AccesoDatos datos = new AccesoDatos();
 
@@ -503,11 +503,14 @@ namespace Servicio
                 datos.setParametro("@codigo", codigo);
                 datos.ejecutarLectura();
 
-                return datos.Lector.Read();
+                if(datos.Lector.Read())
+                    return (int)datos.Lector["Id"];
+
+                return 0;
             }
             catch (Exception)
             {
-                return false;
+                return 0;
             }
             finally
             {
