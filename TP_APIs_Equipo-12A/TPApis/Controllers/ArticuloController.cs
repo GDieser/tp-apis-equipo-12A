@@ -59,12 +59,18 @@ namespace TPApis.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, " el ID no existe ");
             }
             return Request.CreateResponse(HttpStatusCode.OK, art);
+        }
 
-            // POST: api/Articulo (Imagenes)
-            [HttpPost]
+        // POST: api/Articulo (Imagenes)
+        [HttpPost]
         [Route("api/Articulo/{id}/Imagen")]
         public HttpResponseMessage Post([FromBody] List<ImagenDto> imagenes, int id)
         {
+            if (!imagenes.Any())
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Debes agregar al menos UNA imagen.");
+            }
+
             ImagenNegocio negocio = new ImagenNegocio();
             Imagen nuevo = new Imagen();
 
@@ -80,7 +86,9 @@ namespace TPApis.Controllers
             foreach (var imagen in imagenes)
             {
                 if (string.IsNullOrWhiteSpace(imagen.ImagenUrl))
-                    continue;
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "URL inválida o vacía.");
+                }
 
                 Imagen nueva = new Imagen();
                 nueva.IdArticulo = id;
@@ -89,7 +97,7 @@ namespace TPApis.Controllers
                 negocio.agregarImagen(nueva);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, "Imagen/es agregada/s con éxito");
+            return Request.CreateResponse(HttpStatusCode.OK, "Imagen/es agregada/s con éxito");
         }
 
         // POST: api/Articulo
@@ -99,11 +107,11 @@ namespace TPApis.Controllers
                string.IsNullOrWhiteSpace(art.Nombre) ||
                string.IsNullOrWhiteSpace(art.Descripcion))
                 return BadRequest("Todos los campos obligatorios deben estar completos.");
-            
+
             ArticuloNegocio negocio = new ArticuloNegocio();
             try
             {
-                if (negocio.existeArticulo(art.Codigo) !=0)
+                if (negocio.existeArticulo(art.Codigo) != 0)
                     return BadRequest("Existe articulo con este codigo, verifique e intente nuevamente.");
                 negocio.agregar(art);
                 return Content(HttpStatusCode.OK, new { message = "Articulo agregado correctamente." });
