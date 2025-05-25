@@ -13,28 +13,30 @@ namespace TPApis.Controllers
 {
     public class ArticuloController : ApiController
     {
-        // GET: api/Articulo
-        /* Listar v1
-        public IEnumerable<Articulo> Get()
-        {
-            ArticuloNegocio negocio = new ArticuloNegocio();
 
-            return negocio.listar();
-        }
-        */
+        // GET: api/Articulo
         //Listar v2
         [ResponseType(typeof(IEnumerable<Articulo>))]
         public IHttpActionResult Get()
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            List<Articulo> articulos = negocio.listar();
-
-            if (articulos == null)
+            try
             {
-                return NotFound();
-            }
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                List<Articulo> articulos = negocio.listar();
 
-            return Ok(articulos);
+                if (articulos == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(articulos);
+
+            }
+            catch (Exception ex)
+            {
+
+                return InternalServerError(ex);
+            }
         }
 
         // GET: api/Articulo/5
