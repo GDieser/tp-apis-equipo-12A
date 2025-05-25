@@ -40,16 +40,28 @@ namespace TPApis.Controllers
         }
 
         // GET: api/Articulo/5
-        public Articulo Get(int id)
+        /*public Articulo Get(int id)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
             List<Articulo> articulos = negocio.listar();
 
             return articulos.Find(x=> x.IdArticulo == id);
-        }
+        }*/
+        public HttpResponseMessage Get(int id)
+        {
 
-        // POST: api/Articulo (Imagenes)
-        [HttpPost]
+            ArticuloNegocio artNegocio = new ArticuloNegocio();
+
+            Articulo art = artNegocio.getArticulo(id);
+
+            if (art == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, " el ID no existe ");
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, art);
+
+            // POST: api/Articulo (Imagenes)
+            [HttpPost]
         [Route("api/Articulo/{id}/Imagen")]
         public HttpResponseMessage Post([FromBody] List<ImagenDto> imagenes, int id)
         {
