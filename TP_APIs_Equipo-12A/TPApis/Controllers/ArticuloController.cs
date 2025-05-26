@@ -71,33 +71,40 @@ namespace TPApis.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Debes agregar al menos UNA imagen.");
             }
 
-            ImagenNegocio negocio = new ImagenNegocio();
-            Imagen nuevo = new Imagen();
-
-            ArticuloNegocio artNegocio = new ArticuloNegocio();
-
-            Articulo art = artNegocio.getArticulo(id);
-
-            if (art == null)
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "ID de Artículo incorrecto.");
-            }
+                ImagenNegocio negocio = new ImagenNegocio();
+                Imagen nuevo = new Imagen();
 
-            foreach (var imagen in imagenes)
-            {
-                if (string.IsNullOrWhiteSpace(imagen.ImagenUrl))
+                ArticuloNegocio artNegocio = new ArticuloNegocio();
+
+                Articulo art = artNegocio.getArticulo(id);
+
+                if (art == null)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "URL inválida o vacía.");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "ID de Artículo incorrecto.");
                 }
 
-                Imagen nueva = new Imagen();
-                nueva.IdArticulo = id;
-                nueva.ImagenUrl = imagen.ImagenUrl;
+                foreach (var imagen in imagenes)
+                {
+                    if (string.IsNullOrWhiteSpace(imagen.ImagenUrl))
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "URL inválida o vacía.");
+                    }
 
-                negocio.agregarImagen(nueva);
+                    Imagen nueva = new Imagen();
+                    nueva.IdArticulo = id;
+                    nueva.ImagenUrl = imagen.ImagenUrl;
+
+                    negocio.agregarImagen(nueva);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, "Imagen/es agregada/s con éxito");
             }
-
-            return Request.CreateResponse(HttpStatusCode.OK, "Imagen/es agregada/s con éxito");
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.ToString());
+            }
         }
 
         // POST: api/Articulo
