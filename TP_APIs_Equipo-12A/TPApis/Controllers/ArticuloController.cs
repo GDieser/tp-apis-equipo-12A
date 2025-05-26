@@ -156,10 +156,25 @@ namespace TPApis.Controllers
         }
 
         // DELETE: api/Articulo/5
-        public void Delete(int id)
+        /*public void Delete(int id)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
             negocio.eliminarArticulo(id);
+        }*/
+        public HttpResponseMessage Delete(int id)
+        {
+
+            ArticuloNegocio artNegocio = new ArticuloNegocio();
+
+            Articulo art = artNegocio.getArticulo(id);
+
+            if (art == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, " el ID no existe ");
+            }
+            artNegocio.eliminarArticulo(id);
+            return Request.CreateResponse(HttpStatusCode.OK, "se elimino el articulo");
         }
+
     }
 }
